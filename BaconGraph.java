@@ -29,10 +29,11 @@ public class BaconGraph<V,E>  {
 					System.out.println("Visiting " + v);
 					queue.add(v); //enqueue neighbor
 					tree.insertVertex(v); //save that this vertex was discovered from prior vertex
-					tree.insertUndirected(u, v, null);
+					tree.insertDirected(v, u, null);
 				}
 			}
 		}
+		return tree;
 	}
 	public static <V,E> List<V> getPath(Graph<V,E> tree, V v){
 
