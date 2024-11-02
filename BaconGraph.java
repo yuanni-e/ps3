@@ -9,11 +9,12 @@ import java.util.*;
  * @author Tim Pierson, Dartmouth CS10, provided for Fall 2024
  */
 
-public class BFSGraph<V,E>  {
+public class BaconGraph<V,E>  {
+
 	public static <V,E> Graph<V,E> bfs(Graph<V,E> g, V source){
 		System.out.println("\nBreadth First Search from " + source);
 		Graph<V, E> tree = new AdjMapGraph<>(); //initialize backTrack
-		backTrack.put(source, null); //load start vertex with null parent
+		tree.insertVertex(source); //load start vertex with null parent
 		Set<V> visited = new HashSet<V>(); //Set to track which vertices have already been visited
 		Queue<V> queue = new LinkedList<V>(); //queue to implement BFS
 
@@ -27,7 +28,8 @@ public class BFSGraph<V,E>  {
 					visited.add(v); //add neighbor to visited Set
 					System.out.println("Visiting " + v);
 					queue.add(v); //enqueue neighbor
-					backTrack.put(v, u); //save that this vertex was discovered from prior vertex
+					tree.insertVertex(v); //save that this vertex was discovered from prior vertex
+					tree.insertUndirected(u, v, null);
 				}
 			}
 		}
