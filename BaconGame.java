@@ -74,14 +74,18 @@ public class BaconGame {
             return BaconGraph.missingVertices(baconGraph, treePath);
         }
 
-        public PriorityQueue<String> sortActors(int low, int high){
+        public List<String> sortActors(int low, int high){
             PriorityQueue<String> sorted = new PriorityQueue<>((String actor1, String actor2) -> sepFromCen(actor1) - sepFromCen(actor2));
             for(String actor : treePath.vertices()){
                 if(sepFromCen(actor) <= high && sepFromCen(actor) >= low){
                     sorted.add(actor);
                 }
             }
-            return sorted;
+            List<String> ordered = new ArrayList<>(); //using priority queue toString messes up order
+            while(!sorted.isEmpty()) {
+                ordered.add(sorted.poll());
+            }
+            return ordered;
         }
 
         public int sepFromCen(String actor){
@@ -140,6 +144,7 @@ public class BaconGame {
                     } else {
                         System.out.println(actors);
                     }
+                    input = in.nextLine();
                 }
 
                 if (input.equals("i")){
@@ -158,6 +163,20 @@ public class BaconGame {
                         System.out.println(input + " does not exist.");
                         input = in.nextLine();
                     }
+                }
+
+                if (input.equals("s")){
+                    System.out.println("lowest separation:");
+                    int low = in.nextInt();
+                    System.out.println("highest separation");
+                    int high = in.nextInt();
+                    List<String> actors = sortActors(low, high);
+                    if(actors.isEmpty()){
+                        System.out.println("no actors with specified degrees");
+                    } else {
+                        System.out.println(actors);
+                    }
+                    input = in.nextLine();
                 }
 
                 else{
