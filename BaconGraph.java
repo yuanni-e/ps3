@@ -77,12 +77,18 @@ public class BaconGraph<V,E>  {
 
 	public static <V,E> int totalDistance (Graph<V,E> tree, V root){
 		int totalDist = 0;
-		while(tree.inDegree(root) != 0){
+		if (tree.inDegree(root) == 0){
+			totalDist++;
+		}
+		else {
+			//System.out.println("hi");
 			for (V child : tree.inNeighbors(root)) {
-				totalDist += 1 + totalDistance(tree, tree.inNeighbors(child).iterator().next());
+				//System.out.println("hi2");
+				while (tree.inNeighbors(child).iterator().hasNext()){
+					totalDist += 1 + totalDistance(tree, tree.inNeighbors(child).iterator().next());
+				}
 			}
 		}
-		totalDist++;
 		return totalDist;
 
 //		int totalDist = 0;
@@ -101,12 +107,28 @@ public class BaconGraph<V,E>  {
 		try{
 			BaconGraphBuilder test = new BaconGraphBuilder();
 			AdjMapGraph<String, Set<String>> g = test.createGraph("moviesTest.txt", "actorsText.txt", "movie-actorsTest.txt");
-			System.out.println(g);
-			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
-			System.out.println(bfs);
-			System.out.println(getPath(bfs, "Charlie"));
-			System.out.println(missingVertices(g, bfs));
-			System.out.println(averageSeparation(g, "Kevin Bacon"));
+			Scanner in = new Scanner(System.in);
+			String input = in.nextLine();
+
+			System.out.println("Commands:\n" +
+					"c <#>: list top (positive number) or bottom (negative) <#> centers of the universe, sorted by average separation\n" +
+					"d <low> <high>: list actors sorted by degree, with degree between low and high\n" +
+					"i: list actors with infinite separation from the current center\n" +
+					"p <name>: find path from <name> to current center of the universe\n" +
+					"s <low> <high>: list actors sorted by non-infinite separation from the current center, with separation between low and high\n" +
+					"u <name>: make <name> the center of the universe\n" +
+					"q: quit game");
+
+			if (input.equals("q")){
+				//quit
+			}
+
+//			System.out.println(g);
+//			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
+//			System.out.println(bfs);
+//			System.out.println(getPath(bfs, "Kevin Bacon"));
+//			System.out.println(missingVertices(g, bfs));
+//			System.out.println(averageSeparation(bfs, "Kevin Bacon"));
 		}
 		catch (Exception e){
 			System.out.println("error");
