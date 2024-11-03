@@ -72,52 +72,31 @@ public class BaconGraph<V,E>  {
 	//find the average distance-from-root in a shortest path tree.
 	//note: do this without enumerating all the paths! Hint: think tree recursion...
 	public static <V,E> double averageSeparation(Graph<V,E> tree, V root){
-		return ((double)totalDistance(tree, root)/ (double)tree.numVertices());
+		return ((double)totalDistance(tree, root, 0)/ (double)tree.numVertices());
 	}
 
-	public static <V,E> int totalDistance (Graph<V,E> tree, V root){
-		int totalDist = 0;
-		while(tree.inDegree(root) != 0){
-			for (V child : tree.inNeighbors(root)) {
-				totalDist += 1 + totalDistance(tree, tree.inNeighbors(child).iterator().next());
-			}
+	public static <V,E> int totalDistance (Graph<V,E> tree, V root, int dist){
+		int totalDist = dist;
+		for (V child : tree.inNeighbors(root)) {
+			totalDist += totalDistance(tree, child, dist+1);
 		}
-		totalDist++;
 		return totalDist;
-
-//		int totalDist = 0;
-//		if(tree.inDegree(root) == 0){
-//			totalDist++;
-//		}
-//		else {
-//			for (V child : tree.inNeighbors(root)) {
-//				totalDist += 1 + totalDistance(tree, tree.inNeighbors(child).iterator().next());
-//			}
-//		}
-//		return totalDist;
 	}
 
 	public static void main(String[] args) {
 		try{
 			BaconGraphBuilder test = new BaconGraphBuilder();
-			AdjMapGraph<String, Set<String>> g = test.createGraph("moviesTest.txt", "actorsText.txt", "movie-actorsTest.txt");
+			AdjMapGraph<String, Set<String>> g = test.createGraph("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
 			System.out.println(g);
 			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
 			System.out.println(bfs);
 			System.out.println(getPath(bfs, "Charlie"));
 			System.out.println(missingVertices(g, bfs));
-			System.out.println(averageSeparation(g, "Kevin Bacon"));
+			System.out.println(averageSeparation(bfs, "Kevin Bacon"));
 		}
 		catch (Exception e){
-			System.out.println("error");
+			System.out.println("error in main");
 		}
+
 	}
-
-
-	/** 
-	 * Returns a string representation of the vertex and edge lists.
-	 */
-//	public String toString() {
-//		return "Vertices: " + out.keySet().toString() + "\nOut edges: " + out.toString();
-//	}
 }
