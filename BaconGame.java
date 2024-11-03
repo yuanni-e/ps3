@@ -43,6 +43,7 @@ public class BaconGame {
                 Graph<String, Set<String>> actorPaths = BaconGraph.bfs(baconGraph, person);
                 separations.put(person, BaconGraph.averageSeparation(actorPaths, person));
             }
+            System.out.println(separations);
             PriorityQueue<String> orderedSeparations = null;
             if(order.equals("top")){
                 orderedSeparations = new PriorityQueue<String>((String actor1, String actor2) -> Double.compare(separations.get(actor1), separations.get(actor2)));
@@ -90,6 +91,8 @@ public class BaconGame {
 
     public static void main(String[] args) {
         BaconGame test = new BaconGame("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
-        test.play();
+        System.out.println(test.separations("top"));
+        System.out.println(test.separations("bottom"));
+        //test.play();
     }
 }

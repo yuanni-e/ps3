@@ -12,7 +12,7 @@ import java.util.*;
 public class BaconGraph<V,E>  {
 
 	public static <V,E> Graph<V,E> bfs(Graph<V,E> g, V source){
-		System.out.println("\nBreadth First Search from " + source);
+		//System.out.println("\nBreadth First Search from " + source);
 		Graph<V, E> tree = new AdjMapGraph<>(); //initialize backTrack
 		tree.insertVertex(source); //load start vertex with null parent
 		Set<V> visited = new HashSet<V>(); //Set to track which vertices have already been visited
@@ -20,13 +20,13 @@ public class BaconGraph<V,E>  {
 
 		queue.add(source); //enqueue start vertex
 		visited.add(source); //add start to visited Set
-		System.out.println("Visiting " + source);
+		//System.out.println("Visiting " + source);
 		while (!queue.isEmpty()) { //loop until no more vertices
 			V u = queue.remove(); //dequeue
 			for (V v : g.outNeighbors(u)) { //loop over out neighbors
 				if (!visited.contains(v)) { //if neighbor not visited, then neighbor is discovered from this vertex
 					visited.add(v); //add neighbor to visited Set
-					System.out.println("Visiting " + v);
+					//System.out.println("Visiting " + v);
 					queue.add(v); //enqueue neighbor
 					tree.insertVertex(v); //save that this vertex was discovered from prior vertex
 					tree.insertDirected(v, u, g.getLabel(v, u));
