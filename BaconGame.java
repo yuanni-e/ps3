@@ -1,7 +1,5 @@
 import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class BaconGame {
         private Scanner in;
@@ -37,6 +35,26 @@ public class BaconGame {
                 out += curr + " appeared in " + movie + " with " + next + "\n";
             }
             return out;
+        }
+
+        public PriorityQueue<String> separations (String order){
+            Map<String, Double> separations = new HashMap<>();
+            for(String person : baconGraph.vertices()) {
+                Graph<String, Set<String>> actorPaths = BaconGraph.bfs(baconGraph, person);
+                separations.put(person, BaconGraph.averageSeparation(actorPaths, person));
+            }
+            PriorityQueue<String> orderedSeparations = null;
+            if(order.equals("top")){
+                orderedSeparations = new PriorityQueue<String>((String actor1, String actor2) -> Double.compare(separations.get(actor1), separations.get(actor2)));
+            } else if (order.equals("bottom")) {
+                orderedSeparations = new PriorityQueue<String>((String actor1, String actor2) -> Double.compare(separations.get(actor2), separations.get(actor1)));
+            }
+            if(orderedSeparations != null){
+                for(String person : baconGraph.vertices()){
+                    orderedSeparations.add(person);
+                }
+            }
+            return orderedSeparations;
         }
 
         public void play(){
