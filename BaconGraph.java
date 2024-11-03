@@ -84,18 +84,18 @@ public class BaconGraph<V,E>  {
 	}
 
 	public static void main(String[] args) {
-		try{
-			AdjMapGraph<String, Set<String>> g = BaconGraphBuilder.createGraph("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
-			System.out.println(g);
-			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
-			System.out.println(bfs);
-			System.out.println(getPath(bfs, "Charlie"));
-			System.out.println(missingVertices(g, bfs));
-			System.out.println(averageSeparation(bfs, "Kevin Bacon"));
-		}
-		catch (Exception e){
-			System.out.println("error in main");
-		}
+//		try{
+//			AdjMapGraph<String, Set<String>> g = BaconGraphBuilder.createGraph("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
+//			System.out.println(g);
+//			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
+//			System.out.println(bfs);
+//			System.out.println(getPath(bfs, "Charlie"));
+//			System.out.println(missingVertices(g, bfs));
+//			System.out.println(averageSeparation(bfs, "Kevin Bacon"));
+//		}
+//		catch (Exception e){
+//			System.out.println("error in main");
+//		}
 
 	}
 }
