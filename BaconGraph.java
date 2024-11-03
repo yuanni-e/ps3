@@ -89,7 +89,7 @@ public class BaconGraph<V,E>  {
 	/** 
 	 * Returns a string representation of the vertex and edge lists.
 	 */
-	public String toString() {
-		return "Vertices: " + out.keySet().toString() + "\nOut edges: " + out.toString();
-	}
+//	public String toString() {
+//		return "Vertices: " + out.keySet().toString() + "\nOut edges: " + out.toString();
+//	}
 }
