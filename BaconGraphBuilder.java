@@ -4,16 +4,21 @@ import java.io.IOException;
 import java.util.*;
 
 public class BaconGraphBuilder {
-    public Graph<String, Set<String>> baconGraph;
+    public AdjMapGraph<String, Set<String>> baconGraph;
 
-    public BaconGraphBuilder(String movieFilePath, String actorFilePath, String movieActorFilePath) throws IOException {
+    public BaconGraphBuilder() throws IOException {
+
+    }
+
+    public AdjMapGraph<String, Set<String>> createGraph(String movieFilePath, String actorFilePath, String movieActorFilePath) throws IOException{
+        baconGraph = new AdjMapGraph<>();
+
         BufferedReader movieInput = new BufferedReader(new FileReader(movieFilePath));
         BufferedReader actorInput = new BufferedReader(new FileReader(actorFilePath));
         BufferedReader movieActorInput = new BufferedReader(new FileReader(movieActorFilePath));
 
         try {
             //vertices are the actor names (not IDs), and whose edges are labeled with sets of the movie names (again, not IDs) in which actors appeared together
-            baconGraph = new AdjMapGraph<>();
             Map<Integer, String> actorMap = new HashMap<>();
             Map<Integer, String> movieMap = new HashMap<>();
             Map<Integer, List<Integer>> movieActorMap = new HashMap<>();
@@ -71,8 +76,9 @@ public class BaconGraphBuilder {
                 System.out.println("error");
             }
         }
-
+        return baconGraph;
     }
+
 
 
 }
