@@ -59,6 +59,17 @@ public class BaconGame {
             return orderedSeparations;
         }
 
+        public List<String> withinDegree(int low, int high){
+            List<String> actors = new ArrayList<>();
+            for (String actor : baconGraph.vertices()){
+                int degree = baconGraph.inDegree(actor);
+                if(degree <= high && degree >= low){
+                    actors.add(actor);
+                }
+            }
+            return actors;
+        }
+
         public Set<String> infinteSep(){
             return BaconGraph.missingVertices(baconGraph, treePath);
         }
@@ -80,7 +91,7 @@ public class BaconGame {
                 if(input.equals("c")) {
                     System.out.println("How many centers to display?");
                     int i = in.nextInt();
-                    if(i > baconGraph.numVertices()){
+                    if(Math.abs(i) > baconGraph.numVertices()){
                         throw new Exception("invalid number of actors");
                     }
                     List<String> centers = new ArrayList<>();
@@ -97,6 +108,19 @@ public class BaconGame {
                     }
                     System.out.println(centers);
                     input = in.nextLine();
+                }
+
+                if(input.equals("d")){
+                    System.out.println("lower bound degree:");
+                    int l = in.nextInt();
+                    System.out.println("upper bound degree");
+                    int u = in.nextInt();
+                    List<String> actors = withinDegree(l, u);
+                    if(actors.isEmpty()){
+                        System.out.println("no actors with specified degrees");
+                    } else {
+                        System.out.println(actors);
+                    }
                 }
 
                 if (input.equals("p")){
