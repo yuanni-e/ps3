@@ -72,74 +72,30 @@ public class BaconGraph<V,E>  {
 	//find the average distance-from-root in a shortest path tree.
 	//note: do this without enumerating all the paths! Hint: think tree recursion...
 	public static <V,E> double averageSeparation(Graph<V,E> tree, V root){
-		return ((double)totalDistance(tree, root)/ (double)tree.numVertices());
+		return ((double)totalDistance(tree, root, 0)/ (double)tree.numVertices());
 	}
 
-	public static <V,E> int totalDistance (Graph<V,E> tree, V root){
-		int totalDist = 0;
-		if (tree.inDegree(root) == 0){
-			totalDist++;
-		}
-		else {
-			//System.out.println("hi");
-			for (V child : tree.inNeighbors(root)) {
-				//System.out.println("hi2");
-				while (tree.inNeighbors(child).iterator().hasNext()){
-					totalDist += 1 + totalDistance(tree, tree.inNeighbors(child).iterator().next());
-				}
-			}
+	public static <V,E> int totalDistance (Graph<V,E> tree, V root, int dist){
+		int totalDist = dist;
+		for (V child : tree.inNeighbors(root)) {
+			totalDist += totalDistance(tree, child, dist+1);
 		}
 		return totalDist;
-
-//		int totalDist = 0;
-//		if(tree.inDegree(root) == 0){
-//			totalDist++;
-//		}
-//		else {
-//			for (V child : tree.inNeighbors(root)) {
-//				totalDist += 1 + totalDistance(tree, tree.inNeighbors(child).iterator().next());
-//			}
-//		}
-//		return totalDist;
 	}
 
 	public static void main(String[] args) {
-		try{
-			BaconGraphBuilder test = new BaconGraphBuilder();
-			AdjMapGraph<String, Set<String>> g = test.createGraph("moviesTest.txt", "actorsText.txt", "movie-actorsTest.txt");
-			Scanner in = new Scanner(System.in);
-			String input = in.nextLine();
-
-			System.out.println("Commands:\n" +
-					"c <#>: list top (positive number) or bottom (negative) <#> centers of the universe, sorted by average separation\n" +
-					"d <low> <high>: list actors sorted by degree, with degree between low and high\n" +
-					"i: list actors with infinite separation from the current center\n" +
-					"p <name>: find path from <name> to current center of the universe\n" +
-					"s <low> <high>: list actors sorted by non-infinite separation from the current center, with separation between low and high\n" +
-					"u <name>: make <name> the center of the universe\n" +
-					"q: quit game");
-
-			if (input.equals("q")){
-				//quit
-			}
-
+//		try{
+//			AdjMapGraph<String, Set<String>> g = BaconGraphBuilder.createGraph("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
 //			System.out.println(g);
 //			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
 //			System.out.println(bfs);
-//			System.out.println(getPath(bfs, "Kevin Bacon"));
+//			System.out.println(getPath(bfs, "Charlie"));
 //			System.out.println(missingVertices(g, bfs));
 //			System.out.println(averageSeparation(bfs, "Kevin Bacon"));
-		}
-		catch (Exception e){
-			System.out.println("error");
-		}
+//		}
+//		catch (Exception e){
+//			System.out.println("error in main");
+//		}
+
 	}
-
-
-	/** 
-	 * Returns a string representation of the vertex and edge lists.
-	 */
-//	public String toString() {
-//		return "Vertices: " + out.keySet().toString() + "\nOut edges: " + out.toString();
-//	}
 }
