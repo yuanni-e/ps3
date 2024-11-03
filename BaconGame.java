@@ -58,11 +58,38 @@ public class BaconGame {
         }
 
         public void play(){
+            in = new Scanner(System.in);
 
+            System.out.println("Commands:\n" +
+                    "c <#>: list top (positive number) or bottom (negative) <#> centers of the universe, sorted by average separation\n" +
+                    "d <low> <high>: list actors sorted by degree, with degree between low and high\n" +
+                    "i: list actors with infinite separation from the current center\n" +
+                    "p <name>: find path from <name> to current center of the universe\n" +
+                    "s <low> <high>: list actors sorted by non-infinite separation from the current center, with separation between low and high\n" +
+                    "u <name>: make <name> the center of the universe\n" +
+                    "q: quit game");
+
+            String input = in.nextLine();
+            while (!input.equals("q")){
+                if (input.equals("p")){
+                    //String[] split = input.split(" ");
+                    System.out.println("Whose " + center + " number would you like to calculate?");
+                    input = in.nextLine();
+                    if (treePath.hasVertex(input)){ //?
+                        System.out.println(findPath(input));
+                        input = in.nextLine();
+                    }
+                    else {
+                        System.out.println(input + " does not exist.");
+                        input = in.nextLine();
+                    }
+                }
+            }
+            in.close();
         }
 
     public static void main(String[] args) {
         BaconGame test = new BaconGame("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
-        System.out.println(findPath("Dartmouth (Earl thereof)"));
+        test.play();
     }
 }
