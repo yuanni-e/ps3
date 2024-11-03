@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class BaconGraphBuilder {
-    public AdjMapGraph<String, Set<String>> baconGraph;
+    //public AdjMapGraph<String, Set<String>> baconGraph;
 
-    public BaconGraphBuilder() throws IOException {
-
-    }
-
-    public AdjMapGraph<String, Set<String>> createGraph(String movieFilePath, String actorFilePath, String movieActorFilePath) throws IOException{
-        baconGraph = new AdjMapGraph<>();
+    public static AdjMapGraph<String, Set<String>> createGraph(String movieFilePath, String actorFilePath, String movieActorFilePath) throws IOException{
+        AdjMapGraph<String, Set<String>> baconGraph = new AdjMapGraph<>();
 
         BufferedReader movieInput = new BufferedReader(new FileReader(movieFilePath));
         BufferedReader actorInput = new BufferedReader(new FileReader(actorFilePath));

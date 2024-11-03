@@ -85,8 +85,7 @@ public class BaconGraph<V,E>  {
 
 	public static void main(String[] args) {
 		try{
-			BaconGraphBuilder test = new BaconGraphBuilder();
-			AdjMapGraph<String, Set<String>> g = test.createGraph("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
+			AdjMapGraph<String, Set<String>> g = BaconGraphBuilder.createGraph("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
 			System.out.println(g);
 			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
 			System.out.println(bfs);

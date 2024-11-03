@@ -11,8 +11,7 @@ public class BaconGame {
 
         public BaconGame(String movieFilePath, String actorFilePath, String movieActorFilePath){
             try {
-                BaconGraphBuilder builder = new BaconGraphBuilder();
-                baconGraph = builder.createGraph(movieFilePath, actorFilePath, movieActorFilePath);
+                baconGraph = BaconGraphBuilder.createGraph(movieFilePath, actorFilePath, movieActorFilePath);
                 treePath = BaconGraph.bfs(baconGraph, "center");
             } catch (IOException e) {
                 throw new RuntimeException(e);
