@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class BaconGame {
-        private Scanner in;
+        private Scanner in = new Scanner(System.in);
         private Graph<String, Set<String>> baconGraph;
         private static Graph<String, Set<String>> treePath;
         private static String center;
@@ -64,7 +64,6 @@ public class BaconGame {
         }
 
         public void play(){
-            in = new Scanner(System.in);
 
             System.out.println("Commands:\n" +
                     "c <#>: list top (positive number) or bottom (negative) <#> centers of the universe, sorted by average separation\n" +
@@ -98,6 +97,6 @@ public class BaconGame {
         BaconGame test = new BaconGame("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt", "Kevin Bacon");
         System.out.println(test.separations("top"));
         System.out.println(test.separations("bottom"));
-        //test.play();
+        test.play();
     }
 }
