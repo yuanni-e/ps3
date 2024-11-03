@@ -74,8 +74,14 @@ public class BaconGame {
             return BaconGraph.missingVertices(baconGraph, treePath);
         }
 
-        public PriorityQueue<String> sortActors(){
-            return new PriorityQueue<>((String actor1, String actor2) -> sepFromCen(actor1) - sepFromCen(actor2));
+        public PriorityQueue<String> sortActors(int low, int high){
+            PriorityQueue<String> sorted = new PriorityQueue<>((String actor1, String actor2) -> sepFromCen(actor1) - sepFromCen(actor2));
+            for(String actor : treePath.vertices()){
+                if(sepFromCen(actor) <= high && sepFromCen(actor) >= low){
+                    sorted.add(actor);
+                }
+            }
+            return sorted;
         }
 
         public int sepFromCen(String actor){
