@@ -74,6 +74,19 @@ public class BaconGame {
             return BaconGraph.missingVertices(baconGraph, treePath);
         }
 
+        public PriorityQueue<String> sortActors(){
+            return new PriorityQueue<>((String actor1, String actor2) -> sepFromCen(actor1) - sepFromCen(actor2));
+        }
+
+        public int sepFromCen(String actor){
+            int sep = 0;
+            while(treePath.outDegree(actor) > 0){
+                sep++;
+                actor = treePath.outNeighbors(actor).iterator().next();
+            }
+            return sep;
+        }
+
         public void play() throws Exception{
 
             System.out.println("Commands:\n" +
@@ -121,6 +134,10 @@ public class BaconGame {
                     } else {
                         System.out.println(actors);
                     }
+                }
+
+                if (input.equals("i")){
+                    System.out.println(infinteSep());
                 }
 
                 if (input.equals("p")){
