@@ -7,18 +7,19 @@ public class BaconGame {
         private static Graph<String, Set<String>> treePath;
         private static String center;
 
-        public BaconGame(String movieFilePath, String actorFilePath, String movieActorFilePath){
+        public BaconGame(String movieFilePath, String actorFilePath, String movieActorFilePath, String cen){
             try {
                 baconGraph = BaconGraphBuilder.createGraph(movieFilePath, actorFilePath, movieActorFilePath);
-                treePath = BaconGraph.bfs(baconGraph, "Kevin Bacon");
+                treePath = BaconGraph.bfs(baconGraph, cen);
+                center = cen;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
 
         public void changeCenter(String newCen){
+            treePath = BaconGraph.bfs(baconGraph, newCen);
             center = newCen;
-            treePath = BaconGraph.bfs(baconGraph, "center");
         }
 
         public static String findPath(String actor){
@@ -58,6 +59,10 @@ public class BaconGame {
             return orderedSeparations;
         }
 
+        public Set<String> infinteSep(){
+            return BaconGraph.missingVertices(baconGraph, treePath);
+        }
+
         public void play(){
             in = new Scanner(System.in);
 
@@ -90,7 +95,7 @@ public class BaconGame {
         }
 
     public static void main(String[] args) {
-        BaconGame test = new BaconGame("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
+        BaconGame test = new BaconGame("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt", "Kevin Bacon");
         System.out.println(test.separations("top"));
         System.out.println(test.separations("bottom"));
         //test.play();
