@@ -63,7 +63,7 @@ public class BaconGame {
             return BaconGraph.missingVertices(baconGraph, treePath);
         }
 
-        public void play(){
+        public void play() throws Exception{
 
             System.out.println("Commands:\n" +
                     "c <#>: list top (positive number) or bottom (negative) <#> centers of the universe, sorted by average separation\n" +
@@ -76,6 +76,29 @@ public class BaconGame {
 
             String input = in.nextLine();
             while (!input.equals("q")){
+
+                if(input.equals("c")) {
+                    System.out.println("How many centers to display?");
+                    int i = in.nextInt();
+                    if(i > baconGraph.numVertices()){
+                        throw new Exception("invalid number of actors");
+                    }
+                    List<String> centers = new ArrayList<>();
+                    if(i>0){
+                        PriorityQueue<String> top = separations("top");
+                         for(int j = 0; j < i; j++){
+                             centers.add(top.remove());
+                         }
+                    }else{
+                        PriorityQueue<String> bottom = separations("bottom");
+                        for(int j = 0; j < i*(-1); j++){
+                            centers.add(bottom.remove());
+                        }
+                    }
+                    System.out.println(centers);
+                    input = in.nextLine();
+                }
+
                 if (input.equals("p")){
                     //String[] split = input.split(" ");
                     System.out.println("Whose " + center + " number would you like to calculate?");
@@ -83,12 +106,18 @@ public class BaconGame {
                     if (treePath.hasVertex(input)){ //?
                         System.out.println(findPath(input));
                         input = in.nextLine();
-                    }
-                    else {
+                     }
+                     else {
                         System.out.println(input + " does not exist.");
                         input = in.nextLine();
                     }
                 }
+
+                else{
+                    //System.out.println("invalid command");
+                    input = in.nextLine();
+                }
+
             }
             in.close();
         }
@@ -97,6 +126,10 @@ public class BaconGame {
         BaconGame test = new BaconGame("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt", "Kevin Bacon");
         System.out.println(test.separations("top"));
         System.out.println(test.separations("bottom"));
-        test.play();
+        try {
+            test.play();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
