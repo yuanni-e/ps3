@@ -35,14 +35,54 @@ public class BaconGraph<V,E>  {
 		}
 		return tree;
 	}
+
+	//given a shortest path tree and a vertex, construct a path from the vertex back to the center of the universe
 	public static <V,E> List<V> getPath(Graph<V,E> tree, V v){
-
+		List<V> path = new ArrayList<>();
+		if(tree.hasVertex(v)){
+			while(tree.outDegree(v) > 0){
+				path.add(v);
+				v = tree.outNeighbors(v).iterator().next();
+			}
+			return path;
+		}
+		return null;
 	}
+
+	//given a graph and a subgraph (here shortest path tree),
+	//determine which vertices are in the graph but not the subgraph (here, not reached by BFS)
 	public static <V,E> Set<V> missingVertices(Graph<V,E> graph, Graph<V,E> subgraph){
-
+		Set<V> missing = new HashSet<>();
+		for(V v1: graph.vertices()){
+			boolean found = false;
+			for(V v2: subgraph.vertices()){
+                if (v1.equals(v2)) {
+                    found = true;
+                    break;
+                }
+			}
+			if (!found){
+				missing.add(v1);
+			}
+		}
+		return missing;
 	}
-	public static <V,E> double averageSeparation(Graph<V,E> tree, V root){
 
+	//find the average distance-from-root in a shortest path tree.
+	//note: do this without enumerating all the paths! Hint: think tree recursion...
+	public static <V,E> double averageSeparation(Graph<V,E> tree, V root){
+		return ((double)totalDistance(tree, root)/ (double)tree.numVertices());
+	}
+
+	public static <V,E> int totalDistance (Graph<V,E> tree, V root){
+		int totalDist = 0;
+		if(tree.inDegree(root) == 0){
+			totalDist++;
+		}
+		for(V child : tree.inNeighbors(root)){
+			totalDist += 1 + totalDistance(tree, tree.outNeighbors(root).iterator().next());
+		}
+		return totalDist;
 	}
 
 
