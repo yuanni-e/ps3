@@ -40,7 +40,7 @@ public class BaconGame {
 
         public PriorityQueue<String> separations (String order){
             Map<String, Double> separations = new HashMap<>();
-            for(String person : baconGraph.vertices()) {
+            for(String person : treePath.vertices()) {
                 Graph<String, Set<String>> actorPaths = BaconGraph.bfs(baconGraph, person);
                 separations.put(person, BaconGraph.averageSeparation(actorPaths, person));
             }
@@ -52,7 +52,7 @@ public class BaconGame {
                 orderedSeparations = new PriorityQueue<String>((String actor1, String actor2) -> Double.compare(separations.get(actor2), separations.get(actor1)));
             }
             if(orderedSeparations != null){
-                for(String person : baconGraph.vertices()){
+                for(String person : treePath.vertices()){
                     orderedSeparations.add(person);
                 }
             }
