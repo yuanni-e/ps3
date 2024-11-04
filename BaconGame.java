@@ -86,7 +86,7 @@ public class BaconGame {
     }
 
     /**
-     * Finds actors that are within [low, high] degree (# of in-edges)
+     * Finds actors that are within [low, high] degree (# of undirected edges in BaconGraph)
      *
      * @param low lower bound for degree
      * @param high upper bound for degree
@@ -94,9 +94,10 @@ public class BaconGame {
      */
     public List<String> withinDegree(int low, int high){
         List<String> actors = new ArrayList<>();
+        //loop through each actor in the main graph
         for (String actor : baconGraph.vertices()){
-            int degree = baconGraph.inDegree(actor);
-            if(degree <= high && degree >= low){ //if inDegree of actor is within bounds of [low, high]
+            int degree = baconGraph.inDegree(actor); //outDegree would achieve the same result
+            if(degree <= high && degree >= low){ //if degree of actor is within bounds of [low, high]
                 actors.add(actor); //add to list
             }
         }
