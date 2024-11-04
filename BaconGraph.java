@@ -2,6 +2,12 @@ import java.util.*;
 
 public class BaconGraph<V,E> {
 
+	/**
+	 * modified breadth first search on a bacon graph to create a path tree from the center of the universe to its connected vertices
+	 * @param g kevin bacon graph used
+	 * @param source the chosen center of the universe or root of the path tree
+	 * @return a path tree
+	 */
 	public static <V, E> Graph<V, E> bfs(Graph<V, E> g, V source) {
 		Graph<V, E> tree = new AdjMapGraph<>(); //initialize path tree
 		tree.insertVertex(source); //insert source into tree
@@ -24,7 +30,12 @@ public class BaconGraph<V,E> {
 		return tree;
 	}
 
-	//given a shortest path tree and a vertex, construct a path from the vertex back to the center of the universe
+	/**
+	 * given a shortest path tree and a vertex, construct a path from the vertex back to the center of the universe
+	 * @param tree path tree used to traverse through
+	 * @param v the vertex from which the path states
+	 * @return list of vertices from v to the center of the universe, null if v is not connected to the center
+	 */
 	public static <V, E> List<V> getPath(Graph<V, E> tree, V v) {
 		List<V> path = new ArrayList<>();
 		if (tree.hasVertex(v)) { //if v is a valid vertex in path tree
@@ -38,8 +49,13 @@ public class BaconGraph<V,E> {
 		return null; //v was not a valid vertex; return null
 	}
 
-	//given a graph and a subgraph (here, shortest path tree),
-	//determine which vertices are in the graph but not the subgraph (here, not reached by BFS)
+	/**
+	 * given a graph and a subgraph (here, shortest path tree),
+	 * determine which vertices are in the graph but not the subgraph (here, not reached by BFS)
+	 * @param graph larger graph
+	 * @param subgraph subgraph (presumably build by calling bfs on graph)
+	 * @return set of vertices missing from subgraph but present in graph
+	 */
 	public static <V, E> Set<V> missingVertices(Graph<V, E> graph, Graph<V, E> subgraph) {
 		Set<V> missing = new HashSet<>();
 		for (V v1 : graph.vertices()) {
@@ -57,20 +73,30 @@ public class BaconGraph<V,E> {
 		return missing;
 	}
 
-	//find the average distance-from-root in a shortest path tree.
-	//note: do this without enumerating all the paths! Hint: think tree recursion...
+	/**
+	 * find the average distance-from-root in a shortest path tree
+	 * calls recursive method totalDistance to find total distance from root, then divides by total number of vertices in tree
+	 * @param tree path tree with a center
+	 * @param root center of universe
+	 * @return double representation of average distance of each vertex in tree from root
+	 */
 	public static <V, E> double averageSeparation(Graph<V, E> tree, V root) {
 		return ((double) totalDistance(tree, root, 0) / (double) tree.numVertices()); //total distance of all paths/total vertices
 	}
 
+	/**
+	 * recursive helper for averageSeparation
+	 * finds total distance of each vertex from the center of the universe
+	 * @param tree path tree being traversed
+	 * @param root center of universe
+	 * @param dist initial total distance (usually 0)
+	 * @return int for total distance from every vertex in tree to root
+	 */
 	public static <V, E> int totalDistance(Graph<V, E> tree, V root, int dist) {
 		int totalDist = dist;
 		for (V child : tree.inNeighbors(root)) {
 			totalDist += totalDistance(tree, child, dist + 1); //recursively call totalDistance on each in neighbor of root, while incrementing dist
 		}
-
 		return totalDist;
-
 	}
 }
-
