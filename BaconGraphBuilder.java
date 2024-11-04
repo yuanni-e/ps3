@@ -3,8 +3,22 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * builds kevin bacon graph to be used in BaconGame
+ * ps-4 cs 10
+ * @author claire chang
+ * @author annie yuan
+ */
 public class BaconGraphBuilder {
 
+    /**
+     * creates a graph representing the relationships between actors/costars, parsing from three txt files
+     * @param movieFilePath string filepath for file w movie ids attached to movie names
+     * @param actorFilePath string filepath for file w actor ids attached to actor names
+     * @param movieActorFilePath string filepath for file w actor ids attached to the ids of the movie(s) they've appeared in
+     * @return a graph w relationships between all actors listed in the files + movie names as edge labels
+     * @throws IOException if error while reading files
+     */
     public static AdjMapGraph<String, Set<String>> createGraph(String movieFilePath, String actorFilePath, String movieActorFilePath) throws IOException{
         AdjMapGraph<String, Set<String>> baconGraph = new AdjMapGraph<>();
 
@@ -73,9 +87,6 @@ public class BaconGraphBuilder {
                 System.out.println(e);
             }
         }
-        return baconGraph;
+        return baconGraph; //completed graph returned
     }
-
-
-
 }
