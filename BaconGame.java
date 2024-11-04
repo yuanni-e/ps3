@@ -40,7 +40,7 @@ public class BaconGame {
 
         public PriorityQueue<String> separations (String order){
             Map<String, Double> separations = new HashMap<>();
-            for(String person : treePath.vertices()) {
+            for(String person : baconGraph.vertices()) {
                 Graph<String, Set<String>> actorPaths = BaconGraph.bfs(baconGraph, person);
                 separations.put(person, BaconGraph.averageSeparation(actorPaths, person));
             }
@@ -51,10 +51,8 @@ public class BaconGame {
             } else if (order.equals("bottom")) {
                 orderedSeparations = new PriorityQueue<String>((String actor1, String actor2) -> Double.compare(separations.get(actor2), separations.get(actor1)));
             }
-            //hi daniel, you might think this is redundant because no one else calls this method except for me in play(),
-            //but i was also afraid you'd take 0.5 points off if i didn't account for it; we're just trying our best - love, annie
             if(orderedSeparations != null){
-                for(String person : treePath.vertices()){
+                for(String person : baconGraph.vertices()){
                     orderedSeparations.add(person);
                 }
             }
@@ -72,7 +70,7 @@ public class BaconGame {
             return actors;
         }
 
-        public Set<String> infinteSep(){
+        public Set<String> infiniteSep(){
             return BaconGraph.missingVertices(baconGraph, treePath);
         }
 
@@ -120,28 +118,29 @@ public class BaconGame {
                         throw new Exception("invalid number of actors");
                     }
                     List<String> centers = new ArrayList<>();
-                    if(i>0){
+                    if(i > 0){
                         PriorityQueue<String> top = separations("top");
                          for(int j = 0; j < i; j++){
                              centers.add(top.remove());
                          }
-                        System.out.println(centers);
-                    }else if(i<0){
+                    }
+                    else if (i < 0){
                         PriorityQueue<String> bottom = separations("bottom");
-                        for(int j = 0; j < i*(-1); j++){
+                        for(int j = 0; j < i * (-1); j++){
                             centers.add(bottom.remove());
                         }
-                        System.out.println(centers);
-                    }else{
-                        System.out.println("no centers");
                     }
+                    else {
+                        System.out.println("No centers");
+                    }
+                    System.out.println(centers);
                     input = in.nextLine();
                 }
 
-                if(input.equals("d")){
+                if (input.equals("d")){
                     System.out.println("lower bound degree:");
                     int l = in.nextInt();
-                    System.out.println("upper bound degree");
+                    System.out.println("upper bound degree: ");
                     int u = in.nextInt();
                     List<String> actors = withinDegree(l, u);
                     if(actors.isEmpty()){
@@ -153,7 +152,7 @@ public class BaconGame {
                 }
 
                 if (input.equals("i")){
-                    System.out.println(infinteSep());
+                    System.out.println(infiniteSep());
                 }
 
                 if (input.equals("p")){
@@ -163,9 +162,14 @@ public class BaconGame {
                     if (treePath.hasVertex(input)){ //?
                         System.out.println(findPath(input));
                         input = in.nextLine();
-                     }
+                    }
                      else {
-                        System.out.println(input + " does not exist.");
+                         if (infiniteSep().contains(input)){
+                             System.out.println("No path to center");
+                         }
+                         else {
+                             System.out.println(input + " does not exist.");
+                         }
                         input = in.nextLine();
                     }
                 }

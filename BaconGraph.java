@@ -77,25 +77,48 @@ public class BaconGraph<V,E>  {
 
 	public static <V,E> int totalDistance (Graph<V,E> tree, V root, int dist){
 		int totalDist = dist;
+			//System.out.println("hi");
 		for (V child : tree.inNeighbors(root)) {
-			totalDist += totalDistance(tree, child, dist+1);
+			totalDist += totalDistance(tree, child, dist + 1);
 		}
+
 		return totalDist;
+
+//		int totalDist = 0;
+//		if(tree.inDegree(root) == 0){
+//			totalDist++;
+//		}
+//		else {
+//			for (V child : tree.inNeighbors(root)) {
+//				totalDist += 1 + totalDistance(tree, tree.inNeighbors(child).iterator().next());
+//			}
+//		}
+//		return totalDist;
 	}
 
 	public static void main(String[] args) {
-//		try{
-//			AdjMapGraph<String, Set<String>> g = BaconGraphBuilder.createGraph("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
-//			System.out.println(g);
-//			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
-//			System.out.println(bfs);
-//			System.out.println(getPath(bfs, "Charlie"));
-//			System.out.println(missingVertices(g, bfs));
-//			System.out.println(averageSeparation(bfs, "Kevin Bacon"));
-//		}
-//		catch (Exception e){
-//			System.out.println("error in main");
-//		}
+		try{
+			BaconGraphBuilder test = new BaconGraphBuilder();
+			AdjMapGraph<String, Set<String>> g = test.createGraph("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
+//
 
+			System.out.println(g);
+			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
+			System.out.println(bfs);
+			System.out.println(getPath(bfs, "Kevin Bacon"));
+			System.out.println(missingVertices(g, bfs));
+			System.out.println(averageSeparation(bfs, "Kevin Bacon"));
+		}
+		catch (Exception e){
+			System.out.println("error");
+		}
 	}
+
+
+	/** 
+	 * Returns a string representation of the vertex and edge lists.
+	 */
+//	public String toString() {
+//		return "Vertices: " + out.keySet().toString() + "\nOut edges: " + out.toString();
+//	}
 }
