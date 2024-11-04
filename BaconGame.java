@@ -13,7 +13,7 @@ public class BaconGame {
                 treePath = BaconGraph.bfs(baconGraph, cen);
                 center = cen;
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("IOException caught");
             }
         }
 
@@ -98,6 +98,11 @@ public class BaconGame {
         }
 
         public void play() throws Exception{
+
+            //hi daniel, this isn't redundant, we tested an empty file and it still called play(), we had to
+            if (baconGraph == null) {
+                throw new Exception("no graph");
+            }
 
             System.out.println("Commands:\n" +
                     "c <#>: list top (positive number) or bottom (negative) <#> centers of the universe, sorted by average separation\n" +
@@ -210,9 +215,9 @@ public class BaconGame {
         }
 
     public static void main(String[] args) {
-        BaconGame test = new BaconGame("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt", "Kevin Bacon");
-        System.out.println(test.separations("top"));
-        System.out.println(test.separations("bottom"));
+        BaconGame test = new BaconGame("empty.txt", "actorsTest.txt", "movie-actorsTest.txt", "Kevin Bacon");
+//        System.out.println(test.separations("top"));
+//        System.out.println(test.separations("bottom"));
         try {
             test.play();
         } catch (Exception e) {
