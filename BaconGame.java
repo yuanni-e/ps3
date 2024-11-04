@@ -233,9 +233,9 @@ public class BaconGame {
 
             }
             else if (input.equals("s")){
-                System.out.println("Lowest separation:");
+                System.out.println("Lowest separation:"); // ask user for lower bound
                 int low = in.nextInt();
-                System.out.println("Highest separation");
+                System.out.println("Highest separation"); // ask user for upper bound
                 int high = in.nextInt();
                 List<String> actors = sortActors(low, high); //call to sortActors with bounds low and high
                 if (actors.isEmpty()){ //no actors were within [low, high] bounds
@@ -253,7 +253,7 @@ public class BaconGame {
                     changeCenter(newCenter); //call changeCenter with the new center user passed in
                 }
                 else {
-                    System.out.println(newCenter + " does not exist.");
+                    System.out.println(newCenter + " does not exist."); //if invalid actor inputted
                 }
                 input = in.nextLine();
             }
@@ -263,7 +263,7 @@ public class BaconGame {
                 input = in.nextLine();
             }
         }
-        in.close();
+        in.close(); //close scanner once "q" is pressed
     }
 
     public static void main(String[] args) {
