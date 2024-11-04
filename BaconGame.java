@@ -201,8 +201,9 @@ public class BaconGame {
                 if (input.equals("u")){
                     System.out.println("new center of universe:");
                     String newCenter = in.nextLine();
-                    if (treePath.hasVertex(newCenter)){
+                    if (baconGraph.hasVertex(newCenter)){
                         changeCenter(newCenter);
+                        System.out.println(center + " is now the center of the acting universe, connected to " + (treePath.numVertices() - 1) + "/" + baconGraph.numVertices() + " actors with average separation " + BaconGraph.averageSeparation(treePath, center));
                     }
                     else {
                         System.out.println(newCenter + " does not exist.");
