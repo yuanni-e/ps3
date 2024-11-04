@@ -78,7 +78,7 @@ public class BaconGame {
         PriorityQueue<String> orderedSeparations = null;
         if(order.equals("top")){ //if "top" was passed in
             //instantiate orderedSeparations, where the pq is ordered from lesser separation to greater separation
-            orderedSeparations = new PriorityQueue<String>((String actor1, String actor2) -> Double.compare(separations.get(actor1), separations.get(actor2))); //anonymous function compares the avg separations of actor1 and actor2
+            orderedSeparations = new PriorityQueue<String>((String actor1, String actor2) -> Double.compare(separations.get(actor1), separations.get(actor2))); //anonymous function compares the avg separations of actor1 and actor2 (i looked through too many stack overflow pages to make this happen)
         } else if (order.equals("bottom")) { //if "bottom" was passed in
             //instantiate orderedSeparations, where the pq is ordered from greater separation to lesser separation
             orderedSeparations = new PriorityQueue<String>((String actor1, String actor2) -> Double.compare(separations.get(actor2), separations.get(actor1)));
