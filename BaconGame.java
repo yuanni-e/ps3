@@ -179,6 +179,17 @@ public class BaconGame {
                     input = in.nextLine();
                 }
 
+                if (input.equals("u")){
+                    String newCenter = in.nextLine();
+                    if (treePath.hasVertex(newCenter)){ //?
+                        changeCenter(newCenter);
+                    }
+                    else {
+                        System.out.println(newCenter + " does not exist.");
+                    }
+                    input = in.nextLine();
+                }
+
                 else{
                     //System.out.println("invalid command");
                     input = in.nextLine();
