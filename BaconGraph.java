@@ -1,35 +1,23 @@
 import java.util.*;
 
-/**
- * Adjancency Map implementation of the Graph interface
- * Edge labels are stored in nested maps: { v1 -> { v2 -> edge } }
- * Inspired by and loosely based on Goodrich & Tamassia
- * 
- * @author Chris Bailey-Kellogg, Dartmouth CS 10, Spring 2015
- * @author Tim Pierson, Dartmouth CS10, provided for Fall 2024
- */
+public class BaconGraph<V,E> {
 
-public class BaconGraph<V,E>  {
-
-	public static <V,E> Graph<V,E> bfs(Graph<V,E> g, V source){
-		//System.out.println("\nBreadth First Search from " + source);
-		Graph<V, E> tree = new AdjMapGraph<>(); //initialize backTrack
-		tree.insertVertex(source); //load start vertex with null parent
-		Set<V> visited = new HashSet<V>(); //Set to track which vertices have already been visited
-		Queue<V> queue = new LinkedList<V>(); //queue to implement BFS
+	public static <V, E> Graph<V, E> bfs(Graph<V, E> g, V source) {
+		Graph<V, E> tree = new AdjMapGraph<>(); //initialize path tree
+		tree.insertVertex(source); //insert source into tree
+		Set<V> visited = new HashSet<V>(); //set to track which vertices have already been visited
+		Queue<V> queue = new LinkedList<V>(); //queue to implement bfs
 
 		queue.add(source); //enqueue start vertex
 		visited.add(source); //add start to visited Set
-		//System.out.println("Visiting " + source);
 		while (!queue.isEmpty()) { //loop until no more vertices
 			V u = queue.remove(); //dequeue
-			for (V v : g.outNeighbors(u)) { //loop over out neighbors
+			for (V v : g.inNeighbors(u)) { //loop over in neighbors
 				if (!visited.contains(v)) { //if neighbor not visited, then neighbor is discovered from this vertex
-					visited.add(v); //add neighbor to visited Set
-					//System.out.println("Visiting " + v);
+					visited.add(v); //add neighbor to visited set
 					queue.add(v); //enqueue neighbor
-					tree.insertVertex(v); //save that this vertex was discovered from prior vertex
-					tree.insertDirected(v, u, g.getLabel(v, u));
+					tree.insertVertex(v); //insert vertex into tree
+					tree.insertDirected(v, u, g.getLabel(v, u)); //insert directed edge from v to u, get edge label from graph
 				}
 			}
 		}
@@ -37,33 +25,33 @@ public class BaconGraph<V,E>  {
 	}
 
 	//given a shortest path tree and a vertex, construct a path from the vertex back to the center of the universe
-	public static <V,E> List<V> getPath(Graph<V,E> tree, V v){
+	public static <V, E> List<V> getPath(Graph<V, E> tree, V v) {
 		List<V> path = new ArrayList<>();
-		if(tree.hasVertex(v)){
-			while(tree.outDegree(v) > 0){
-				path.add(v);
-				v = tree.outNeighbors(v).iterator().next();
+		if (tree.hasVertex(v)) { //if v is a valid vertex in path tree
+			while (tree.outDegree(v) > 0) { //while there is a path to follow towards the center
+				path.add(v); //add v to the list that is keeping track of path
+				v = tree.outNeighbors(v).iterator().next(); //update v to be one of its out neighbors
 			}
-			path.add(v);
+			path.add(v); //add center to path
 			return path;
 		}
-		return null;
+		return null; //v was not a valid vertex; return null
 	}
 
-	//given a graph and a subgraph (here shortest path tree),
+	//given a graph and a subgraph (here, shortest path tree),
 	//determine which vertices are in the graph but not the subgraph (here, not reached by BFS)
-	public static <V,E> Set<V> missingVertices(Graph<V,E> graph, Graph<V,E> subgraph){
+	public static <V, E> Set<V> missingVertices(Graph<V, E> graph, Graph<V, E> subgraph) {
 		Set<V> missing = new HashSet<>();
-		for(V v1: graph.vertices()){
+		for (V v1 : graph.vertices()) {
 			boolean found = false;
-			for(V v2: subgraph.vertices()){
-                if (v1.equals(v2)) {
-                    found = true;
-                    break;
-                }
+			for (V v2 : subgraph.vertices()) {
+				if (v1.equals(v2)) { //if vertex found in graph was found in subgraph
+					found = true; //set found to true and break from loop
+					break;
+				}
 			}
-			if (!found){
-				missing.add(v1);
+			if (!found) { //if found is still false
+				missing.add(v1); //vertex from graph was not found in subgraph; add to missing set
 			}
 		}
 		return missing;
@@ -71,54 +59,18 @@ public class BaconGraph<V,E>  {
 
 	//find the average distance-from-root in a shortest path tree.
 	//note: do this without enumerating all the paths! Hint: think tree recursion...
-	public static <V,E> double averageSeparation(Graph<V,E> tree, V root){
-		return ((double)totalDistance(tree, root, 0)/ (double)tree.numVertices());
+	public static <V, E> double averageSeparation(Graph<V, E> tree, V root) {
+		return ((double) totalDistance(tree, root, 0) / (double) tree.numVertices()); //total distance of all paths/total vertices
 	}
 
-	public static <V,E> int totalDistance (Graph<V,E> tree, V root, int dist){
+	public static <V, E> int totalDistance(Graph<V, E> tree, V root, int dist) {
 		int totalDist = dist;
-			//System.out.println("hi");
 		for (V child : tree.inNeighbors(root)) {
-			totalDist += totalDistance(tree, child, dist + 1);
+			totalDist += totalDistance(tree, child, dist + 1); //recursively call totalDistance on each in neighbor of root, while incrementing dist
 		}
 
 		return totalDist;
 
-//		int totalDist = 0;
-//		if(tree.inDegree(root) == 0){
-//			totalDist++;
-//		}
-//		else {
-//			for (V child : tree.inNeighbors(root)) {
-//				totalDist += 1 + totalDistance(tree, tree.inNeighbors(child).iterator().next());
-//			}
-//		}
-//		return totalDist;
 	}
-
-	public static void main(String[] args) {
-		try{
-			BaconGraphBuilder test = new BaconGraphBuilder();
-			AdjMapGraph<String, Set<String>> g = test.createGraph("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt");
-//
-
-			System.out.println(g);
-			Graph<String, Set<String>> bfs = bfs(g, "Kevin Bacon");
-			System.out.println(bfs);
-			System.out.println(getPath(bfs, "Kevin Bacon"));
-			System.out.println(missingVertices(g, bfs));
-			System.out.println(averageSeparation(bfs, "Kevin Bacon"));
-		}
-		catch (Exception e){
-			System.out.println("error");
-		}
-	}
-
-
-	/** 
-	 * Returns a string representation of the vertex and edge lists.
-	 */
-//	public String toString() {
-//		return "Vertices: " + out.keySet().toString() + "\nOut edges: " + out.toString();
-//	}
 }
+
