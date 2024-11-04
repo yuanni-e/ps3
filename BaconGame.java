@@ -180,8 +180,9 @@ public class BaconGame {
                 }
 
                 if (input.equals("u")){
+                    System.out.println("new center of universe:");
                     String newCenter = in.nextLine();
-                    if (treePath.hasVertex(newCenter)){ //?
+                    if (treePath.hasVertex(newCenter)){
                         changeCenter(newCenter);
                     }
                     else {
