@@ -137,6 +137,7 @@ public class BaconGame {
 
     /**
      * Calculates an actor's separation from the center of the universe
+     * helper method for sortActors
      *
      * @param actor the name of the target actor
      * @return the actor's separation from center as an int
