@@ -143,7 +143,7 @@ public class BaconGame {
         int sep = 0;
         while(treePath.outDegree(actor) > 0){ //while path can still be followed to center (actor has out neighbors)
             sep++; //increment separation
-            actor = treePath.outNeighbors(actor).iterator().next(); //update actor to be one of its out neighbors (a costar that actor has been in a movie with)
+            actor = treePath.outNeighbors(actor).iterator().next(); //update actor to point to its parent (a costar that actor has been in a movie with)
         }
         return sep;
     }
@@ -265,9 +265,11 @@ public class BaconGame {
 
     public static void main(String[] args) {
         //create new BaconGame, pass in proper txt files and set Kevin Bacon as default center
-        BaconGame test = new BaconGame("bacon/movies.txt", "bacon/actors.txt", "bacon/movie-actors.txt", "Kevin Bacon");
+        BaconGame test1 = new BaconGame("bacon/moviesTest.txt", "bacon/actorsTest.txt", "bacon/movie-actorsTest.txt", "Kevin Bacon");
+        BaconGame test2 = new BaconGame("bacon/movies.txt", "bacon/actors.txt", "bacon/movie-actors.txt", "Kevin Bacon");
         try {
-            test.play(); //play BaconGame!
+            test1.play(); //play BaconGame (using test data)!
+            test2.play(); //play BaconGame (using actual data)!
         } catch (Exception e) {
             System.out.println(e);
         }

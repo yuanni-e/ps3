@@ -30,7 +30,7 @@ public class BaconGraph<V,E> {
 		if (tree.hasVertex(v)) { //if v is a valid vertex in path tree
 			while (tree.outDegree(v) > 0) { //while there is a path to follow towards the center
 				path.add(v); //add v to the list that is keeping track of path
-				v = tree.outNeighbors(v).iterator().next(); //update v to be one of its out neighbors
+				v = tree.outNeighbors(v).iterator().next(); //update v to point to its parent
 			}
 			path.add(v); //add center to path
 			return path;
