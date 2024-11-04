@@ -1,6 +1,12 @@
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * interactive interface for playing the kevin bacon game
+ * ps-4 cs10
+ * @author annie yuan
+ * @author claire chang
+ */
 public class BaconGame {
     private Scanner in = new Scanner(System.in); //scanner for keyboard input
     private Graph<String, Set<String>> baconGraph;
