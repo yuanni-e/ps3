@@ -20,6 +20,7 @@ public class BaconGame {
         public void changeCenter(String newCen){
             treePath = BaconGraph.bfs(baconGraph, newCen);
             center = newCen;
+            System.out.println(newCen + " is now the center of the acting universe, connected to " + (treePath.numVertices() - 1) + "/" + baconGraph.numVertices() + " actors with average separation " + BaconGraph.averageSeparation(treePath, center));
         }
 
         public static String findPath(String actor){
@@ -33,7 +34,12 @@ public class BaconGame {
                 String curr = path.get(i);
                 String next = path.get(i+1);
                 String movie = treePath.getLabel(curr, next).toString();
-                out += curr + " appeared in " + movie + " with " + next + "\n";
+                if (i == path.size() - 2){
+                    out += curr + " appeared in " + movie + " with " + next;
+                }
+                else {
+                    out += curr + " appeared in " + movie + " with " + next + "\n";
+                }
             }
             return out;
         }
@@ -44,7 +50,7 @@ public class BaconGame {
                 Graph<String, Set<String>> actorPaths = BaconGraph.bfs(baconGraph, person);
                 separations.put(person, BaconGraph.averageSeparation(actorPaths, person));
             }
-            System.out.println(separations);
+            //System.out.println(separations);
             PriorityQueue<String> orderedSeparations = null;
             if(order.equals("top")){
                 orderedSeparations = new PriorityQueue<String>((String actor1, String actor2) -> Double.compare(separations.get(actor1), separations.get(actor2)));
@@ -111,7 +117,8 @@ public class BaconGame {
                     "p <name>: find path from <name> to current center of the universe\n" +
                     "s <low> <high>: list actors sorted by non-infinite separation from the current center, with separation between low and high\n" +
                     "u <name>: make <name> the center of the universe\n" +
-                    "q: quit game");
+                    "q: quit game\n" +
+                    center + " is now the center of the acting universe, connected to " + (treePath.numVertices() - 1) + "/" + baconGraph.numVertices() + " actors with average separation " + BaconGraph.averageSeparation(treePath, center));
 
             String input = in.nextLine();
             while (!input.equals("q")){
@@ -166,17 +173,15 @@ public class BaconGame {
                     input = in.nextLine();
                     if (treePath.hasVertex(input)){ //?
                         System.out.println(findPath(input));
+                    }
+                    else if (infiniteSep().contains(input)){
+                        System.out.println("No path to center");
+                        input = in.nextLine();
+                    } else {
+                        System.out.println(input + " does not exist.");
                         input = in.nextLine();
                     }
-                     else {
-                         if (infiniteSep().contains(input)){
-                             System.out.println("No path to center");
-                         }
-                         else {
-                             System.out.println(input + " does not exist.");
-                         }
-                        input = in.nextLine();
-                    }
+
                 }
 
                 if (input.equals("s")){
@@ -215,7 +220,7 @@ public class BaconGame {
         }
 
     public static void main(String[] args) {
-        BaconGame test = new BaconGame("empty.txt", "actorsTest.txt", "movie-actorsTest.txt", "Kevin Bacon");
+        BaconGame test = new BaconGame("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt", "Kevin Bacon");
 //        System.out.println(test.separations("top"));
 //        System.out.println(test.separations("bottom"));
         try {
