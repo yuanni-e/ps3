@@ -46,6 +46,7 @@ public class BaconGame {
             String next = path.get(i + 1); //get and store actor at i and actor at i + 1 in the path
             String movie = treePath.getLabel(curr, next).toString(); //gets the movie(s) that features curr and next from their edge label
             if (i == path.size() - 2){
+                //last line added, no new line needed
                 out += curr + " appeared in " + movie + " with " + next;
             }
             else {
