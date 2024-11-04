@@ -180,6 +180,7 @@ public class BaconGame {
             if (input.equals("c")) {
                 System.out.println("How many possible centers to display (positive or negative number)?");
                 int i = in.nextInt(); //prompts user to enter an integer
+                in.nextLine();
                 if(Math.abs(i) > baconGraph.numVertices()){ //if |i| exceeds number of vertices in graph
                     throw new Exception("Invalid number of actors");
                 }
@@ -200,7 +201,6 @@ public class BaconGame {
                     System.out.println("No centers");
                 }
                 System.out.println(centers);
-                input = in.nextLine(); //call for user to input another character
             }
 
             else if (input.equals("d")){
@@ -208,18 +208,17 @@ public class BaconGame {
                 int low = in.nextInt(); //prompts user to enter an integer
                 System.out.println("Upper bound degree: ");
                 int high = in.nextInt(); //prompts user to enter another integer
+                in.nextLine();
                 List<String> actors = withinDegree(low, high); //call to withinDegree with bounds low and high
                 if (actors.isEmpty()){ //no actors were within [low, high] degree
                     System.out.println("No actors within specified degrees");
                 } else {
                     System.out.println(actors);
                 }
-                input = in.nextLine();
             }
 
             else if (input.equals("i")){
                 System.out.println(infiniteSep()); //call to infiniteSep()
-                input = in.nextLine();
             }
 
             else if (input.equals("p")){
@@ -227,14 +226,11 @@ public class BaconGame {
                 String pathFromActor = in.nextLine(); //prompts user to enter an actor name
                 if (treePath.hasVertex(pathFromActor)){ //if user input is a valid vertex within path tree
                     System.out.println(findPath(pathFromActor)); //call to findPath with said vertex
-                    input = in.nextLine();
                 }
                 else if (infiniteSep().contains(pathFromActor)){ //if user input is a vertex with infinite separation from center
-                    System.out.println("No path to center; " + pathFromActor + "'s " + center + "'s number is infinite");
-                    input = in.nextLine();
+                    System.out.println("No path to center; " + pathFromActor + "'s " + center + " number is infinite");
                 } else { //if user input is not a valid vertex in the graph
                     System.out.println(pathFromActor + " does not exist.");
-                    input = in.nextLine();
                 }
 
             }
@@ -243,15 +239,15 @@ public class BaconGame {
                 int low = in.nextInt();
                 System.out.println("Highest separation"); // ask user for upper bound
                 int high = in.nextInt();
+                in.nextLine();
                 List<String> actors = sortActors(low, high); //call to sortActors with bounds low and high
                 if (actors.isEmpty()){ //no actors were within [low, high] bounds
                     System.out.println("No actors within specified separations");
                 } else {
                     System.out.println(actors);
                 }
-                input = in.nextLine();
-            }
 
+            }
             else if (input.equals("u")){
                 System.out.println("New center of universe: ");
                 String newCenter = in.nextLine();
@@ -261,13 +257,11 @@ public class BaconGame {
                 else {
                     System.out.println(newCenter + " does not exist."); //if invalid actor inputted
                 }
-                input = in.nextLine();
-            }
 
-            else{
-                System.out.println("Invalid command");
-                input = in.nextLine();
             }
+            System.out.println("Enter another character.");
+            input = in.nextLine();
+
         }
         in.close(); //close scanner once "q" is pressed
     }
@@ -275,10 +269,10 @@ public class BaconGame {
     public static void main(String[] args) {
         //create new BaconGame, pass in proper txt files and set Kevin Bacon as default center
         BaconGame test1 = new BaconGame("bacon/moviesTest.txt", "bacon/actorsTest.txt", "bacon/movie-actorsTest.txt", "Kevin Bacon");
-        BaconGame test2 = new BaconGame("bacon/movies.txt", "bacon/actors.txt", "bacon/movie-actors.txt", "Kevin Bacon");
+        //BaconGame test2 = new BaconGame("bacon/movies.txt", "bacon/actors.txt", "bacon/movie-actors.txt", "Kevin Bacon");
         try {
             test1.play(); //play BaconGame (using test data)!
-            test2.play(); //play BaconGame (using actual data)!
+            //test2.play(); //play BaconGame (using actual data)!
         } catch (Exception e) {
             System.out.println(e);
         }
