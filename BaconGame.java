@@ -149,7 +149,7 @@ public class BaconGame {
                     input = in.nextLine();
                 }
 
-                if (input.equals("d")){
+                else if (input.equals("d")){
                     System.out.println("lower bound degree:");
                     int l = in.nextInt();
                     System.out.println("upper bound degree: ");
@@ -163,16 +163,17 @@ public class BaconGame {
                     input = in.nextLine();
                 }
 
-                if (input.equals("i")){
+                else if (input.equals("i")){
                     System.out.println(infiniteSep());
                 }
 
-                if (input.equals("p")){
+                else if (input.equals("p")){
                     //String[] split = input.split(" ");
                     System.out.println("Whose " + center + " number would you like to calculate?");
                     input = in.nextLine();
-                    if (treePath.hasVertex(input)){ //?
+                    if (treePath.hasVertex(input)){
                         System.out.println(findPath(input));
+                        input = in.nextLine();
                     }
                     else if (infiniteSep().contains(input)){
                         System.out.println("No path to center");
@@ -184,7 +185,7 @@ public class BaconGame {
 
                 }
 
-                if (input.equals("s")){
+                else if (input.equals("s")){
                     System.out.println("lowest separation:");
                     int low = in.nextInt();
                     System.out.println("highest separation");
@@ -198,7 +199,7 @@ public class BaconGame {
                     input = in.nextLine();
                 }
 
-                if (input.equals("u")){
+                else if (input.equals("u")){
                     System.out.println("new center of universe:");
                     String newCenter = in.nextLine();
                     if (baconGraph.hasVertex(newCenter)){
@@ -221,7 +222,7 @@ public class BaconGame {
         }
 
     public static void main(String[] args) {
-        BaconGame test = new BaconGame("moviesTest.txt", "actorsTest.txt", "movie-actorsTest.txt", "Kevin Bacon");
+        BaconGame test = new BaconGame("movies.txt", "actors.txt", "movie-actors.txt", "Kevin Bacon");
 //        System.out.println(test.separations("top"));
 //        System.out.println(test.separations("bottom"));
         try {
